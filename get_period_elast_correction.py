@@ -101,8 +101,10 @@ class get_period(BaseEstimator, TransformerMixin):
         df5.columns=['quantity','date']
         df5=df5.groupby(['date'])['quantity'].sum()
         df5=df5.reset_index()
-        # T=pd.date_range(df5['date'].min(),df5['date'].max(), freq='D')
-        T=pd.date_range(df5['date'].min(), self.max_date, freq='D')
+        if self.max_date==None:
+            T=pd.date_range(df5['date'].min(),df5['date'].max(), freq='D')
+        else:
+            T=pd.date_range(df5['date'].min(), self.max_date, freq='D')
         T=pd.DataFrame(T, columns=['date'])
         T['date']=T['date'].apply(datetime2date)
         
